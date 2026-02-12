@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Valentine’s Jule</title>
+<link rel="icon" href="love-letter.png" type="image/png">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100dvh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #ff9a9e, #fecfef);
+    font-family: 'Segoe UI', sans-serif;
+    overflow: hidden;
+    position: relative;
+}
+
+/* CENTER WRAPPER */
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    z-index: 2;
+}
+
+/* ENVELOPE CONTAINER */
+.envelope-container {
+    width: min(90vw, 320px);
+    aspect-ratio: 4 / 3;
+    perspective: 1000px;
+    cursor: pointer;
+}
+
+/* ENVELOPE */
+.envelope {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+/* BODY (clips the letter properly) */
+.envelope-body {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #ff4d6d;
+    border-radius: 8px;
+    overflow: hidden; /* IMPORTANT FIX */
+    z-index: 2;
+}
+
+/* FLAP */
+.envelope-flap {
+    position: absolute;
+    width: 100%;
+    height: 50%;
+    background: #ff758f;
+    top: 0;
+    left: 0;
+    transform-origin: top;
+    transition: transform 0.8s ease;
+    clip-path: polygon(0 0, 50% 100%, 100% 0);
+    z-index: 3;
+}
+
+/* LETTER */
+.letter {
+    position: absolute;
+    width: 85%;
+    height: 85%;
+    background: white;
+    left: 50%;
+    bottom: 0;
+    transform: translate(-50%, 100%); /* fully hidden */
+    transition: transform 0.8s ease;
+    border-radius: 6px;
+    padding: 16px;
+    text-align: center;
+    font-size: clamp(13px, 2.8vw, 15px);
+    line-height: 1.5;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* OPEN STATE */
+.open .envelope-flap {
+    transform: rotateX(-180deg);
+}
+
+.open .letter {
+    transform: translate(-50%, -10%);
+}
+
+/* Glow */
+.glow {
+    box-shadow: 0 0 25px rgba(255, 0, 120, 0.8);
+    border-radius: 10px;
+}
+
+/* Instructions */
+.instructions {
+    font-size: clamp(16px, 4vw, 18px);
+    color: white;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0%,100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+/* Floating Hearts */
+.heart {
+    position: absolute;
+    bottom: -30px;
+    animation: floatUp linear infinite;
+    color: rgba(255, 0, 100, 0.6);
+    z-index: 0;
+}
+
+@keyframes floatUp {
+    from {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(-120vh);
+        opacity: 0;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrapper">
+    <div class="envelope-container" onclick="toggleEnvelope(this)">
+        <div class="envelope">
+            <div class="envelope-body">
+                <div class="letter">
+                    Happy Valentine's Day Julecakes
+                    Hindi ako mag coconfess ha. Tropa tropa lang muna.
+                    I appreciate your life. You make my heart feel easy. 
+                    Sana wag kang mawala sa bohai ko.
+                    Happy Valentine’s Day ❤️ meow meow
+                </div>
+            </div>
+            <div class="envelope-flap"></div>
+        </div>
+    </div>
+
+    <div class="instructions">Tap the envelope 💌</div>
+</div>
+
+<script>
+function toggleEnvelope(el) {
+    el.classList.toggle("open");
+    el.classList.add("glow");
+    setTimeout(() => {
+        el.classList.remove("glow");
+    }, 800);
+}
+
+/* Floating hearts */
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "❤️";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (15 + Math.random() * 25) + "px";
+    heart.style.animationDuration = (5 + Math.random() * 3) + "s";
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 8000);
+}
+
+setInterval(createHeart, 600);
+</script>
+
+</body>
+</html>
